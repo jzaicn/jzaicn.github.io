@@ -153,6 +153,316 @@ var x=1, y=2;
 var {hostname:domain, pathname:path} = location; // 快速获取当前页面的域名和路径
 ```
 
+## js对象
+
+### this
+
+- 对象内部访问对象使用this
+
+```js
+var xiaoming = {
+    birth: 1990,
+    age: function () {
+        var y = new Date().getFullYear();
+        return y - this.birth; // 用that而不是this
+    }
+};
+xiaoming.age();//一定要obj.function() 才能找到xiaoming这个对象
+```
+
+- 闭包请用一个变量存储this
+
+```js
+var xiaoming = {
+    name: '小明',
+    birth: 1990,
+    age: function () {
+        var self = this; // 在方法内部一开始就捕获this
+        function getAgeFromBirth() {
+            var y = new Date().getFullYear();
+            return y - self.birth; // 用that而不是this
+        }
+        return getAgeFromBirth();
+    }
+};
+```
+
+- 函数apply / call，类似于函数指针
+
+```js
+function getAge() {
+    var y = new Date().getFullYear();
+    return y - this.birth;
+}
+
+var xiaoming = {
+    name: '小明',
+    birth: 1990,
+    age: getAge
+};
+
+xiaoming.age(); // 25
+getAge.apply(xiaoming, []);  // 25, this指向xiaoming, 参数为空
+
+Math.max.apply(null, [3, 5, 4]); // 5 apply()把参数打包成Array再传入；
+Math.max.call(null, 3, 5, 4); // 5 call()把参数按顺序传入。
+```
+
+- 使用lambda(箭头函数) 自动绑定this到外层
+
+```js
+var obj = {
+    birth: 1991,
+    getAge: function (year) {
+        var b = this.birth; // 1990
+        var fn = (y) => y - this.birth; // this.birth仍是1990
+        return fn.call({birth:1000}, year); // 尝试重新绑定this，由于箭头函数，直接被忽略
+    }
+};
+console.log(obj.getAge(2015));// 25
+```
+
+### 函数装饰器用法
+
+现在假定我们想统计一下代码一共调用了多少次parseInt()
+
+```js
+var count = 0;
+var oldParseInt = parseInt; // 保存原函数
+
+window.parseInt = function () {
+    count += 1;
+    return oldParseInt.apply(null, arguments); // 原封不动，调用原函数
+};
+```
+
+## 高阶编程
+
+### map / reduce
+
+```js
+// Map
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var results = arr.map(pow); // 每个元素应用pow函数
+console.log(results); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+// Reduce
+[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4);
+
+var arr = [1, 3, 5, 7, 9];
+arr.reduce(function (x, y) { // 连续两个合1 两个合1
+    return x + y;
+}); // 25
+```
+
+### filter 筛选
+
+```js
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var r = arr.filter(function (x) {
+    return x < 5; // true 的保留，类似于查询的where
+});
+r; // [1, 2, 3, 4]
+```
+
+### generater （结构类似于c#async/await）
+
+除了return语句，还可以用yield返回多次。就像闭包一样提供了一种可以记住状态的函数。
+
+```js
+function* foo(x) {
+    yield x + 1;
+    yield x + 2;
+    return x + 3;
+}
+
+// 传入100，作为参数创建一个generater 对象
+var o = foo(100);
+
+// Object {value: 101, done: false} ，第一次调用next() 返回 yield x + 1;的结果 101，以及次generater未执行完毕
+console.log(o.next());
+
+// Object {value: 102, done: false}，第二次调用next() 返回 yield x + 2;的结果 102，以及次generater未执行完毕
+console.log(o.next());
+
+// Object {value: 103, done: true}，第三次调用next() 返回 yield x + 3;的结果 103，以及次generater已执行return完毕
+console.log(o.next());
+
+// Object {value: undefined, done: true}，第四次及以后调用next，将无更多结果返回，返回以上内容作为默认值
+console.log(o.next());
+
+// 自动循环输出知道done = true
+for (var x of fib(10)) {
+    console.log(x); // 依次输出0, 1, 1, 2, 3, ...
+}
+```
+
+### js 异步编程
+
+- 最简单的异步编程，timeout
+
+```js
+//js 使用异步的方式执行
+setTimeout(function(){
+    console.log("call");
+}, 1000);
+```
+
+- 最简单的ajax异步编程
+
+```js
+//（伪代码）传统js通过返回状态码判断ajax 的成功与否
+request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+        if (request.status === 200) {
+            return success(request.responseText);
+        } else {
+            return fail(request.status);
+        }
+    }
+}
+```
+
+- 链式写法的ajax
+
+```js
+// （伪代码）简化后的链式写法
+var ajax = ajaxGet('http://...');
+ajax.ifSuccess(success).ifFail(fail);
+```
+
+- 链式写法的异步编程
+
+```js
+// 类似异步操作都可以通过Promise对象封装成链式操作
+new Promise(test).then(function (result) {
+    console.log('成功：' + result);
+}).catch(function (reason) {
+    console.log('失败：' + reason);
+});
+```
+
+- 用Promise实现异步链式编程
+
+```js
+// 测试函数：要求输入两个函数，一个callback代表成功，一个callback代表失败
+function test(Success, Fail) {
+    let isSucc = Math.random() > 0.5;
+    console.log('will call ' + isSucc?"Success":"Fail");
+    setTimeout(function () {
+        if (isSucc) {
+            console.log('call Success()...');
+            Success('200 OK');
+        }
+        else {
+            console.log('call Fail()...');
+            Fail('500 Fail');
+        }
+    }, 1000);
+}
+
+// 旧js写法
+test(
+    function(msg){console.log("success:"+msg);},
+    function(msg){console.log("fail:"+msg);}
+);
+
+// Promise写法
+new Promise(test)
+.then(function (result) {console.log('成功：'+result);})
+.catch(function (reason) {console.log('失败：'+reason);});
+```
+
+- Promise 处理成功后继续执行
+
+```js
+//(伪代码)传统写法，疯狂嵌套
+ajaxGet('http://.1..',function(){
+    // success 1
+    ajaxGet('http://.2..',function(){
+        // success 2
+    },function(){
+        // fail 2
+    });
+},function(){
+    // fail 1
+});
+```
+
+```js
+// 0.5秒后返回input*input的计算结果:
+function multiply(input) {
+    return new Promise(function (resolve, reject) {
+        console.log('calculating ' + input + ' x ' + input + '...');
+        setTimeout(resolve, 500, input * input);
+    });
+}
+
+// 0.5秒后返回input+input的计算结果:
+function add(input) {
+    return new Promise(function (resolve, reject) {
+        console.log('calculating ' + input + ' + ' + input + '...');
+        // 调用resolve函数表示成功，promise链会继续执行下一步
+        setTimeout(resolve, 500, input + input);
+        // 调用reject函数整个promise将会抛出异常promise链catch得到相应，并结束整个流程
+        //setTimeout(reject, 500, input + input);
+    });
+}
+
+var p = new Promise(function (resolve, reject) {
+    console.log('start new Promise...');
+    resolve(123);
+});
+
+// 原理上和success函数中调用另一个异步操作，再从success调用另一个，如此类推类似
+// 现在按照格式封装函数，从而满足全链路链式操作
+p.then(multiply)
+ .then(add)
+ .then(multiply)
+ .then(add)
+ .then(function (result) {
+    console.log('Got value: ' + result);
+ })
+ .catch(function(result){
+     console.error("err:"+result);
+ });
+ ```
+
+
+generater尤其在js异步处理里面比用对象管理状态来得更简洁。
+
+//TODO: 没看懂
+```js
+// 黑暗 ajax 调用过程
+ajax('http://url-1', data1, function (err, result) {
+    if (err) {
+        return handle(err);
+    }
+    ajax('http://url-2', data2, function (err, result) {
+        if (err) {
+            return handle(err);
+        }
+        ajax('http://url-3', data3, function (err, result) {
+            if (err) {
+                return handle(err);
+            }
+            return success(result);
+        });
+    });
+});
+
+// 通过generater简化的ajax
+try {
+    r1 = yield ajax('http://url-1', data1);
+    r2 = yield ajax('http://url-2', data2);
+    r3 = yield ajax('http://url-3', data3);
+    success(r3);
+}
+catch (err) {
+    handle(err);
+}
+```
+
 ## Warning
 
 ### 自动加";"的BUG
