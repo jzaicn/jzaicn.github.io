@@ -292,8 +292,8 @@ console.log(o.next());
 console.log(o.next());
 
 // 自动循环输出知道done = true
-for (var x of fib(10)) {
-    console.log(x); // 依次输出0, 1, 1, 2, 3, ...
+for (var x of foo(100)) {
+    console.log(x); // 依次输出101, 102, 103 
 }
 ```
 
@@ -462,6 +462,8 @@ catch (err) {
     handle(err);
 }
 ```
+
+https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327
 
 ## Warning
 
