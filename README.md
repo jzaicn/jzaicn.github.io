@@ -428,10 +428,9 @@ p.then(multiply)
  });
  ```
 
+:question:generater尤其在js异步处理里面比用对象管理状态来得更简洁。
+:question:没看懂 [https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327)
 
-generater尤其在js异步处理里面比用对象管理状态来得更简洁。
-
-//TODO: 没看懂
 ```js
 // 黑暗 ajax 调用过程
 ajax('http://url-1', data1, function (err, result) {
@@ -463,7 +462,7 @@ catch (err) {
 }
 ```
 
-https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327
+
 
 ## Warning
 
