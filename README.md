@@ -265,7 +265,7 @@ var r = arr.filter(function (x) {
 r; // [1, 2, 3, 4]
 ```
 
-### generater （结构类似于c#async/await）
+### generator （结构类似于c#async/await）
 
 除了return语句，还可以用yield返回多次。就像闭包一样提供了一种可以记住状态的函数。
 
@@ -276,16 +276,16 @@ function* foo(x) {
     return x + 3;
 }
 
-// 传入100，作为参数创建一个generater 对象
+// 传入100，作为参数创建一个generator 对象
 var o = foo(100);
 
-// Object {value: 101, done: false} ，第一次调用next() 返回 yield x + 1;的结果 101，以及次generater未执行完毕
+// Object {value: 101, done: false} ，第一次调用next() 返回 yield x + 1;的结果 101，以及次generator未执行完毕
 console.log(o.next());
 
-// Object {value: 102, done: false}，第二次调用next() 返回 yield x + 2;的结果 102，以及次generater未执行完毕
+// Object {value: 102, done: false}，第二次调用next() 返回 yield x + 2;的结果 102，以及次generator未执行完毕
 console.log(o.next());
 
-// Object {value: 103, done: true}，第三次调用next() 返回 yield x + 3;的结果 103，以及次generater已执行return完毕
+// Object {value: 103, done: true}，第三次调用next() 返回 yield x + 3;的结果 103，以及次generator已执行return完毕
 console.log(o.next());
 
 // Object {value: undefined, done: true}，第四次及以后调用next，将无更多结果返回，返回以上内容作为默认值
@@ -428,8 +428,9 @@ p.then(multiply)
  });
  ```
 
-:question:generater尤其在js异步处理里面比用对象管理状态来得更简洁。
-:question:没看懂 [https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327)
+![GitHub Logo](./svg/help.svg "Octocat.jpg") Generator尤其在js异步处理里面比用对象管理状态来得更简洁。 
+
+![GitHub Logo](./svg/help.svg "Octocat.jpg") 没看懂 generator 怎么写才能简化 ajax [https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327)
 
 ```js
 // 黑暗 ajax 调用过程
@@ -450,7 +451,7 @@ ajax('http://url-1', data1, function (err, result) {
     });
 });
 
-// 通过generater简化的ajax
+// 通过generator简化的ajax
 try {
     r1 = yield ajax('http://url-1', data1);
     r2 = yield ajax('http://url-2', data2);
