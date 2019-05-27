@@ -428,9 +428,9 @@ p.then(multiply)
  });
  ```
 
-![GitHub Logo](./svg/help.svg "Octocat.jpg") Generator尤其在js异步处理里面比用对象管理状态来得更简洁。 
+![GitHub Logo](./svg/help.svg "help.jpg") Generator尤其在js异步处理里面比用对象管理状态来得更简洁。  
 
-![GitHub Logo](./svg/help.svg "Octocat.jpg") 没看懂 generator 怎么写才能简化 ajax [https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327)
+![GitHub Logo](./svg/help.svg "help.jpg") 没看懂 generator 怎么写才能简化 ajax [https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327)
 
 ```js
 // 黑暗 ajax 调用过程
@@ -461,9 +461,86 @@ try {
 catch (err) {
     handle(err);
 }
+
+// generator 封装 ajax
+// https://www.cnblogs.com/dojo-lzz/p/5496661.html
+var i = 0;
+i++;
+function ajax(url){
+    return new Promise(function(resolve, reject){
+        setTimeout(function(){
+            console.log(url);
+            resolve({url: url + i++});
+        }, 200);
+    });
+}
+
+function *gen(url){
+    var data = yield ajax(url);
+    data = yield ajax(data.url);
+    data = yield ajax(data.url);
+    console.log(data.url);
+}
+
+function co(gen){
+    var iterator = gen("http://www.baidu.com");
+    var v = iterator.next();
+
+    function step(v){
+        if (!v.done){
+            v.value.then(function(data){
+                step(iterator.next(data));
+            })
+        }
+    }
+
+    step(v);
+}
+
+co(gen);
 ```
 
+## Js 的类
 
+### ![不再使用](./svg/caution.svg "不再使用") (不再使用) 原型链法
+
+```js
+var Student = {
+    name: 'Robot',
+    height: 1.6,
+    run: function () {
+        console.log(this.name + ' is running...');
+    }
+};
+
+var xiaoming = {
+    name: '小明'
+};
+
+xiaoming.__proto__ = Student; // 原型链指定Student
+
+xiaoming.run(); // 小明 is running...
+```
+
+### 构造函数
+
+```js
+function Student(name) {
+    this.name = name;
+    this.run = function () {
+        console.log(this.name + ' is running...');
+    }
+}
+var xiaoming = new Student('小明');
+xiaoming.name; // '小明'
+xiaoming.run(); // 小明 is running...
+```
+
+新创建的```xiaoming```的原型链是：
+
+```no
+xiaoming ----> Student.prototype ----> Object.prototype ----> null
+```
 
 ## Warning
 
@@ -473,7 +550,7 @@ catch (err) {
 function foo() {
     return  // 每行自动添加 ";"
         { // 由于"{"表示未结束语句，编译器不自动加";"
-            name: 'foo' 
+            name: 'foo'  
             };
 }
 ```
