@@ -103,6 +103,14 @@ function foo(a, b, ...rest) {
 foo(1,2,3,4);
 ```
 
+### 函数默认参数
+
+```js
+function Student(props) {
+    this.name = props.name || 'Unnamed';
+}
+```
+
 ### 变量 var let const
 
 ```js
