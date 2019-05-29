@@ -502,44 +502,48 @@ co(gen);
 
 ## Js 的类
 
-### ![不再使用](./svg/caution.svg "不再使用") (不再使用) 原型链法
+### Prototype 原型链模式 - 组合继承
 
 ```js
-var Student = {
-    name: 'Robot',
-    height: 1.6,
-    run: function () {
-        console.log(this.name + ' is running...');
-    }
-};
-
-var xiaoming = {
-    name: '小明'
-};
-
-xiaoming.__proto__ = Student; // 原型链指定Student
-
-xiaoming.run(); // 小明 is running...
-```
-
-### 构造函数
-
-```js
-function Student(name) {
-    this.name = name;
-    this.run = function () {
-        console.log(this.name + ' is running...');
+'use strict'
+console.log("-父类-----------------");
+function Animal(species) {
+    this.species = species || "动物";
+    this.run = function(){
+        console.log(this.species+" is running");
     }
 }
-var xiaoming = new Student('小明');
-xiaoming.name; // '小明'
-xiaoming.run(); // 小明 is running...
-```
+var animal = new Animal();
+console.log(animal.species);
 
-新创建的```xiaoming```的原型链是：
+// 2.Prototype 原型链模式 - 组合继承
+console.log("-子类 黑猫警长-----------------");
+function Cat(name, color,species) {
+    Animal.call(this,species);
+    this.name = name || 'Tom';
+    this.color = color || "Red";
+}
+Cat.prototype = new Animal();
+Cat.prototype.constructor = Cat;
 
-```no
-xiaoming ----> Student.prototype ----> Object.prototype ----> null
+var black_cat = new Cat("Chief","Black","Cartoon");
+
+black_cat.run();
+console.log("name : " + black_cat.name);
+console.log("color : " + black_cat.color);
+console.log("species : " + black_cat.species);
+console.log("of Cat : " + (black_cat instanceof Cat));
+console.log("specof Animal : " + (black_cat instanceof Animal));
+console.log("------------------");
+// -父类-----------------
+// 动物
+// -子类 黑猫警长-----------------
+// Cartoon is running
+// name : Chief
+// color : Black
+// species : Cartoon
+// of Cat : true
+// specof Animal : true
 ```
 
 ## Warning
