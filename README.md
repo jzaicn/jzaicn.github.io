@@ -658,7 +658,7 @@ console.log("------------------");
 - 后端服务器转发（前后端分离，同站）。
 - JSONP （仅前端即可，只有Get方法）。利用可跨域请求js的原理，返回一个带结果的js文件。
 - CORS全称Cross-Origin Resource Sharing（H5跨域规范）。服务器配置支持请求的域名，假设本域是[my.com]("")，外域是[sina.com]("")，只要响应头Access-Control-Allow-Origin为[http://my.com]("")，或者是*，本次请求就可以成功。
-![cros示例图](.\img-Js知识点摘要\cros.png "cros示例图")
+![cros示例图](./img-Js知识点摘要/cros.png "cros示例图")
 
 *注意*
 上面这种跨域请求，称之为“简单请求”。简单请求包括```GET```、```HEAD```和```POST```（```POST```的```Content-Type```类型 仅限```application/x-www-form-urlencoded```、```multipart/form-data```和```text/plain```），并且不能出现任何自定义头（例如，```X-Custom: 12345```），通常能满足90%的需求。
