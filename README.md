@@ -568,6 +568,51 @@ console.log("------------------");
 // specof Animal : true
 ```
 
+### ES6 以后支持class写法，更简单
+
+```js
+console.log("-父类-----------------");
+class Animal{
+    constructor(species){
+        this.species = species || "动物";
+    }
+    run(){
+        console.log(this.species + " is running");
+    }
+}
+
+var animal = new Animal();
+console.log(animal.species);
+console.log("-子类 黑猫警长-----------------");
+//2.Prototype 原型链模式 - 组合继承
+class Cat extends Animal{
+    constructor(name, color,species){
+        super(species);
+        this.name = name || 'Tom';
+        this.color = color || "Red";
+    }
+}
+
+var black_cat = new Cat("Chief", "Black", "Cartoon");
+
+black_cat.run();
+console.log("name : " + black_cat.name);
+console.log("color : " + black_cat.color);
+console.log("species : " + black_cat.species);
+console.log("of Cat : " + (black_cat instanceof Cat));
+console.log("specof Animal : " + (black_cat instanceof Animal));
+console.log("------------------");
+// -父类-----------------
+// 动物
+// -子类 黑猫警长-----------------
+// Cartoon is running
+// name : Chief
+// color : Black
+// species : Cartoon
+// of Cat : true
+// specof Animal : true
+```
+
 ## Warning
 
 ### 自动加";"的BUG
