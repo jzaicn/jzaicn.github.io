@@ -516,15 +516,37 @@ function Animal(species) {
 var animal = new Animal();
 console.log(animal.species);
 
-// 2.Prototype 原型链模式 - 组合继承
 console.log("-子类 黑猫警长-----------------");
-function Cat(name, color,species) {
-    Animal.call(this,species);
-    this.name = name || 'Tom';
-    this.color = color || "Red";
+// 1. Prototype 原型链模式 - 组合继承 （写少两行）begin
+if (false) {
+    function Cat(name, color, species) {
+        Animal.call(this, species);
+        this.name = name || 'Tom';
+        this.color = color || "Red";
+    }
+    Cat.prototype = new Animal();
+    Cat.prototype.constructor = Cat;
 }
-Cat.prototype = new Animal();
-Cat.prototype.constructor = Cat;
+// 1. Prototype 原型链模式 - 组合继承 end
+
+// 2. Prototype 原型链模式 - 寄生组合继承 （性能更好）begin
+if (true) {
+    function Cat(name, color) {
+        Animal.call(this);
+        this.name = name || 'Tom';
+        this.color = color || "Red";
+    }
+    (function () {
+        // 创建一个没有实例方法的类
+        var Super = function () { };
+        Super.prototype = Animal.prototype;
+        //将实例作为子类的原型
+        Cat.prototype = new Super();
+        Cat.prototype.constructor = Cat; // 需要修复下构造函数
+    })();
+}
+// 2. Prototype 原型链模式 - 寄生组合继承 end
+
 
 var black_cat = new Cat("Chief","Black","Cartoon");
 
