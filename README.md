@@ -436,6 +436,35 @@ p.then(multiply)
  });
  ```
 
+- Promise 并行执行
+
+```js
+var p1 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 500, 'P1');
+});
+var p2 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 600, 'P2');
+});
+// 同时执行p1和p2，并在它们都完成后执行then:
+Promise.all([p1, p2]).then(function (results) {
+    console.log(results); // 获得一个Array: ['P1', 'P2']
+});
+```
+
+- Promise 竞争执行（哪个先完成要哪个）
+
+```js
+var p1 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 500, 'P1');
+});
+var p2 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 600, 'P2');
+});
+Promise.race([p1, p2]).then(function (result) {
+    console.log(result); // 'P1'
+});
+```
+
 ![GitHub Logo](./svg/help.svg "help.jpg") Generator尤其在js异步处理里面比用对象管理状态来得更简洁。  
 
 ![GitHub Logo](./svg/help.svg "help.jpg") 没看懂 generator 怎么写才能简化 ajax [https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024381818112?t=1558885620327)
@@ -621,6 +650,53 @@ console.log("------------------");
 // specof Animal : true
 ```
 
+## 网页编程
+
+### 跨域问题
+
+- Flash发送Http请求（作废）。
+- 后端服务器转发（前后端分离，同站）。
+- JSONP （仅前端即可，只有Get方法）。利用可跨域请求js的原理，返回一个带结果的js文件。
+- CORS全称Cross-Origin Resource Sharing（H5跨域规范）。服务器配置支持请求的域名，假设本域是[my.com]("")，外域是[sina.com]("")，只要响应头Access-Control-Allow-Origin为[http://my.com]("")，或者是*，本次请求就可以成功。
+![cros示例图](.\img-Js知识点摘要\cros.png "cros示例图")
+
+*注意*
+上面这种跨域请求，称之为“简单请求”。简单请求包括```GET```、```HEAD```和```POST```（```POST```的```Content-Type```类型 仅限```application/x-www-form-urlencoded```、```multipart/form-data```和```text/plain```），并且不能出现任何自定义头（例如，```X-Custom: 12345```），通常能满足90%的需求。
+
+无论你是否需要用JavaScript通过CORS跨域请求资源，你都要了解CORS的原理。最新的浏览器全面支持HTML5。在引用外域资源时，除了JavaScript和CSS外，都要验证CORS。例如，当你引用了某个第三方CDN上的字体文件时：
+
+```css
+/* CSS */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('http://cdn.com/fonts/fontawesome.ttf') format('truetype');
+}
+```
+
+如果该CDN服务商未正确设置```Access-Control-Allow-Origin```，那么浏览器无法加载字体资源。
+
+对于```PUT```、```DELETE```以及其他类型如```application/json```的```POST```请求，在发送```AJAX```请求之前，浏览器会先发送一个```OPTIONS```请求（称为```preflighted```请求）到这个URL上，询问目标服务器是否接受：
+
+```text
+OPTIONS /path/to/resource HTTP/1.1
+Host: bar.com
+Origin: http://my.com
+Access-Control-Request-Method: POST
+```
+
+服务器必须响应并明确指出允许的Method：
+
+```text
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://my.com
+Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS
+Access-Control-Max-Age: 86400
+```
+
+浏览器确认服务器响应的```Access-Control-Allow-Methods```头确实包含将要发送的```AJAX```请求的```Method```，才会继续发送```AJAX```，否则，抛出一个错误。
+
+由于以```POST```、```PUT```方式传送```JSON```格式的数据在```REST```中很常见，所以要跨域正确处理```POST```和```PUT```请求，服务器端必须正确响应```OPTIONS```请求。
+
 ## Warning
 
 ### 自动加";"的BUG
@@ -642,3 +718,8 @@ function foo() {
     { name: 'foo' };
 }
 ```
+
+### 网页编程要注意问题
+
+1. ajax 跨域问题
+2. gzip
