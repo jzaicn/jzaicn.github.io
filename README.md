@@ -697,6 +697,58 @@ Access-Control-Max-Age: 86400
 
 由于以```POST```、```PUT```方式传送```JSON```格式的数据在```REST```中很常见，所以要跨域正确处理```POST```和```PUT```请求，服务器端必须正确响应```OPTIONS```请求。
 
+## Nodejs
+
+### 模块编程
+
+```js
+// 模块 bbb.js
+var s = 'Hello';    // 模块变量，不影响外部
+function greet(name) {
+    console.log(s + ', ' + name + '!');
+}
+module.exports = greet; // 本模块对外暴露的是一个函数
+```
+
+```js
+// 调用者 aaa.js
+var greet = require('./bbb');   // 引入bbb模块的暴露对象(js名称)
+var s = 'Michael';
+
+greet(s); // Hello, Michael! // bbb模块暴露的对象是函数，直接使用
+```
+
+*注意*：nodejs中模块
+
+```js
+var module = {
+    id: 'hello',
+    exports: {} //Node默认给你准备了一个空对象{}
+};
+var load = function (exports, module) {
+    // 读取的hello.js代码:
+    function greet(name) {
+        console.log('Hello, ' + name + '!');
+    }
+
+    // 建议对外赋值方式
+    module.exports = greet;
+
+    //两种方法一样
+    module.exports.foo = function () { return 'foo'; };
+    module.exports.bar = function () { return 'bar'; };
+    //两种方法一样
+    exports.foo = function () { return 'foo'; };
+    exports.bar = function () { return 'bar'; };
+
+    // hello.js代码结束
+    return module.exports;
+};
+var exported = load(module);
+// 保存module:
+save(module, exported);
+```
+
 ## Warning
 
 ### 自动加";"的BUG
@@ -717,6 +769,19 @@ function foo() {
     return;
     { name: 'foo' };
 }
+```
+
+### 推荐优秀库
+
+1. underscore 集合操作库
+2. babel ES6编译成低版本js
+3. var http = require('http'); nodejs web 服务器
+4. var url = require('url'); nodejs 将 url 解析成对象
+
+### 平台版本测试
+
+```js
+console.log('ES6');
 ```
 
 ### 网页编程要注意问题
