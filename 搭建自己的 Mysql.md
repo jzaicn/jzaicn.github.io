@@ -32,3 +32,20 @@ mysql> select host,user,plugin,authentication_string from mysql.user;
 mysql> alter user 'root'@'%' identified with mysql_native_password by 'mysqlpassword';
 mysql> flush privileges;
 ```
+
+### n. 数据库大小写敏感设置
+
+```sql
+-- 0 文件系统大小写敏感，数据库大小写敏感（linux要设置这个）
+-- 1 数据库大小写不敏感
+-- 2 文件系统大小写不敏感，数据库大小写敏感（win下要设置这个）
+show variables like '%lower_case_table_names%'; 
+```
+
+![大小写敏感查询](.\img-搭建自己的Mysql\low_case_table.png "大小写敏感查询")
+
+修改方法： 
+1. 找到mysql的安装位置 
+2. 找到主目录下的my.ini配置文件 
+3. 在[mysqld]节点下添加lower-case-table-names=0 
+4. 重启mysql服务 
