@@ -537,6 +537,37 @@ function co(gen){
 co(gen);
 ```
 
+- Promise vs Async/Await
+
+```js
+// Promise 创建一个User
+User.create({
+    id:1,
+    name:"Create by Promise",
+    age:100
+}).then(function(p){
+    console.log("created promise : "+JSON.stringify(p));
+}).catch(function(err){
+    console.log("fail : "+err);
+});
+
+// Async 创建一个User（更加接近高级语言语义）
+(async()=>{
+    try{
+        let p = await User.create({
+            id:2,
+            name:"Create by async",
+            age:200
+        });
+        console.log("created async : "+JSON.stringify(p));
+    }
+    catch(e)
+    {
+        console.log("fail async : "+e);
+    }
+})();
+```
+
 ## Js 的类
 
 ### Prototype 原型链模式 - 组合继承
