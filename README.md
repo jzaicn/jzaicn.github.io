@@ -301,7 +301,7 @@ console.log(o.next());
 
 // 自动循环输出知道done = true
 for (var x of foo(100)) {
-    console.log(x); // 依次输出101, 102, 103 
+    console.log(x); // 依次输出101, 102, 103
 }
 ```
 
@@ -434,7 +434,7 @@ p.then(multiply)
  .catch(function(result){
      console.error("err:"+result);
  });
- ```
+```
 
 - Promise 并行执行
 
