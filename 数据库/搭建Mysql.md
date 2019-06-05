@@ -1,5 +1,11 @@
 # 搭建Mysql
 
+- [搭建Mysql](#%E6%90%AD%E5%BB%BAmysql)
+  - [linux docker mysql（小规模试玩）](#linux-docker-mysql%E5%B0%8F%E8%A7%84%E6%A8%A1%E8%AF%95%E7%8E%A9)
+    - [1.](#1)
+    - [n.无法远程连接服务器](#n%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8)
+    - [n. 数据库大小写敏感设置](#n-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E8%AE%BE%E7%BD%AE)
+
 ## linux docker mysql（小规模试玩）
 
 使用```docker```搭建```mysql```数据库的优点在于灵活，可以随意搭建多个相互不干扰的数据库。尤其在试用一些开源镜像的时候最合适。
