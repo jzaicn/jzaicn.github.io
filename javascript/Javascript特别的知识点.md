@@ -1,50 +1,47 @@
-<a id="markdown-1-javascript-特别的知识点" name="1-javascript-特别的知识点"></a>
 # 1. Javascript 特别的知识点
 
-- [1. Javascript 特别的知识点](#1-javascript-%E7%89%B9%E5%88%AB%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9)
-  - [1.1. 额外附加辅助编程](#11-%E9%A2%9D%E5%A4%96%E9%99%84%E5%8A%A0%E8%BE%85%E5%8A%A9%E7%BC%96%E7%A8%8B)
-    - [1.1.1. 'use strict'](#111-use-strict)
-  - [1.2. 语法](#12-%E8%AF%AD%E6%B3%95)
-    - [1.2.1. 循环 for...in / for...of](#121-%E5%BE%AA%E7%8E%AF-forin--forof)
-    - [1.2.2. 函数参数arguments](#122-%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0arguments)
-    - [1.2.3. rest参数](#123-rest%E5%8F%82%E6%95%B0)
-    - [1.2.4. 函数默认参数](#124-%E5%87%BD%E6%95%B0%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0)
-    - [1.2.5. 变量 var let const](#125-%E5%8F%98%E9%87%8F-var-let-const)
-    - [1.2.6. 解构赋值（数组赋值）](#126-%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC%E6%95%B0%E7%BB%84%E8%B5%8B%E5%80%BC)
-    - [1.2.7. 从对象中抽取属性](#127-%E4%BB%8E%E5%AF%B9%E8%B1%A1%E4%B8%AD%E6%8A%BD%E5%8F%96%E5%B1%9E%E6%80%A7)
-  - [1.3. js对象](#13-js%E5%AF%B9%E8%B1%A1)
-    - [1.3.1. this](#131-this)
-    - [1.3.2. 函数装饰器用法](#132-%E5%87%BD%E6%95%B0%E8%A3%85%E9%A5%B0%E5%99%A8%E7%94%A8%E6%B3%95)
-  - [1.4. 高阶编程](#14-%E9%AB%98%E9%98%B6%E7%BC%96%E7%A8%8B)
-    - [1.4.1. map / reduce](#141-map--reduce)
-    - [1.4.2. filter 筛选](#142-filter-%E7%AD%9B%E9%80%89)
-    - [1.4.3. generator （结构类似于c#async/await）](#143-generator-%E7%BB%93%E6%9E%84%E7%B1%BB%E4%BC%BC%E4%BA%8Ecasyncawait)
-    - [1.4.4. js 异步编程](#144-js-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B)
-  - [1.5. Js 的类](#15-js-%E7%9A%84%E7%B1%BB)
-    - [1.5.1. Prototype 原型链模式 - 组合继承](#151-prototype-%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%A8%A1%E5%BC%8F---%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF)
-    - [1.5.2. ES6 以后支持class写法，更简单](#152-es6-%E4%BB%A5%E5%90%8E%E6%94%AF%E6%8C%81class%E5%86%99%E6%B3%95%E6%9B%B4%E7%AE%80%E5%8D%95)
-  - [1.6. 网页编程](#16-%E7%BD%91%E9%A1%B5%E7%BC%96%E7%A8%8B)
-    - [1.6.1. 跨域问题](#161-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98)
-  - [1.7. Nodejs](#17-nodejs)
-    - [1.7.1. 模块编程](#171-%E6%A8%A1%E5%9D%97%E7%BC%96%E7%A8%8B)
-  - [1.8. Warning](#18-warning)
-    - [1.8.1. 自动加";"的BUG](#181-%E8%87%AA%E5%8A%A8%E5%8A%A0%22%22%E7%9A%84bug)
-    - [1.8.2. 推荐优秀库](#182-%E6%8E%A8%E8%8D%90%E4%BC%98%E7%A7%80%E5%BA%93)
-    - [1.8.3. 平台版本测试](#183-%E5%B9%B3%E5%8F%B0%E7%89%88%E6%9C%AC%E6%B5%8B%E8%AF%95)
-    - [1.8.4. 网页编程要注意问题](#184-%E7%BD%91%E9%A1%B5%E7%BC%96%E7%A8%8B%E8%A6%81%E6%B3%A8%E6%84%8F%E9%97%AE%E9%A2%98)
+<!-- TOC -->
+- [1. Javascript 特别的知识点](#1-javascript-特别的知识点)
+    - [1.1. 额外附加辅助编程](#11-额外附加辅助编程)
+        - [1.1.1. 'use strict'](#111-use-strict)
+    - [1.2. 语法](#12-语法)
+        - [1.2.1. 循环 for...in / for...of](#121-循环-forin--forof)
+        - [1.2.2. 函数参数arguments](#122-函数参数arguments)
+        - [1.2.3. rest参数](#123-rest参数)
+        - [1.2.4. 函数默认参数](#124-函数默认参数)
+        - [1.2.5. 变量 var let const](#125-变量-var-let-const)
+        - [1.2.6. 解构赋值（数组赋值）](#126-解构赋值数组赋值)
+        - [1.2.7. 从对象中抽取属性](#127-从对象中抽取属性)
+    - [1.3. js对象](#13-js对象)
+        - [1.3.1. this](#131-this)
+        - [1.3.2. 函数装饰器用法](#132-函数装饰器用法)
+    - [1.4. 高阶编程](#14-高阶编程)
+        - [1.4.1. map / reduce](#141-map--reduce)
+        - [1.4.2. filter 筛选](#142-filter-筛选)
+        - [1.4.3. generator （结构类似于c#async/await）](#143-generator-结构类似于casyncawait)
+        - [1.4.4. js 异步编程](#144-js-异步编程)
+    - [1.5. Js 的类](#15-js-的类)
+        - [1.5.1. Prototype 原型链模式 - 组合继承](#151-prototype-原型链模式---组合继承)
+        - [1.5.2. ES6 以后支持class写法，更简单](#152-es6-以后支持class写法更简单)
+    - [1.6. 网页编程](#16-网页编程)
+        - [1.6.1. 跨域问题](#161-跨域问题)
+    - [1.7. Nodejs](#17-nodejs)
+        - [1.7.1. 模块编程](#171-模块编程)
+    - [1.8. Warning](#18-warning)
+        - [1.8.1. 自动加";"的BUG](#181-自动加的bug)
+        - [1.8.2. 推荐优秀库](#182-推荐优秀库)
+        - [1.8.3. 平台版本测试](#183-平台版本测试)
+        - [1.8.4. 网页编程要注意问题](#184-网页编程要注意问题)
+<!-- /TOC -->
 
-<a id="markdown-11-额外附加辅助编程" name="11-额外附加辅助编程"></a>
 ## 1.1. 额外附加辅助编程
 
-<a id="markdown-111-use-strict" name="111-use-strict"></a>
 ### 1.1.1. 'use strict'
 
 为了修补JavaScript这一严重设计缺陷，ECMA在后续规范中推出了strict模式，在strict模式下运行的JavaScript代码，强制通过var申明变量，未使用var申明变量就使用的，将导致运行错误。这是一个字符串，不支持strict模式的浏览器会把它当做一个字符串语句执行，支持strict模式的浏览器将开启strict模式运行JavaScript。
 
-<a id="markdown-12-语法" name="12-语法"></a>
 ## 1.2. 语法
 
-<a id="markdown-121-循环-forin--forof" name="121-循环-forin--forof"></a>
 ### 1.2.1. 循环 for...in / for...of
 
 - ***for...in*** 它可以把一个对象的所有属性依次循环出来：
@@ -111,7 +108,6 @@ a.forEach(function (element, index, array) {
 });
 ```
 
-<a id="markdown-122-函数参数arguments" name="122-函数参数arguments"></a>
 ### 1.2.2. 函数参数arguments
 
 利用arguments，你可以获得调用者传入的所有参数。也就是说，即使函数不定义任何参数，还是可以拿到参数的值
@@ -126,7 +122,6 @@ function abs() {
 }
 ```
 
-<a id="markdown-123-rest参数" name="123-rest参数"></a>
 ### 1.2.3. rest参数
 
 rest参数只能写在最后，前面用...标识，从运行结果可知，传入的参数先绑定a、b，多余的参数以数组形式交给变量rest，所以，不再需要arguments我们就获取了全部参数
@@ -140,7 +135,6 @@ function foo(a, b, ...rest) {
 foo(1,2,3,4);
 ```
 
-<a id="markdown-124-函数默认参数" name="124-函数默认参数"></a>
 ### 1.2.4. 函数默认参数
 
 ```js
@@ -149,7 +143,6 @@ function Student(props) {
 }
 ```
 
-<a id="markdown-125-变量-var-let-const" name="125-变量-var-let-const"></a>
 ### 1.2.5. 变量 var let const
 
 ```js
@@ -164,7 +157,6 @@ a // ReferenceError: a is not defined.
 b // 1
 ```
 
-<a id="markdown-126-解构赋值数组赋值" name="126-解构赋值数组赋值"></a>
 ### 1.2.6. 解构赋值（数组赋值）
 
 ```js
@@ -172,7 +164,6 @@ var [x, y, z] = ['hello', 'JavaScript', 'ES6'];
 let [x, [y, z]] = ['hello', ['JavaScript', 'ES6']];
 ```
 
-<a id="markdown-127-从对象中抽取属性" name="127-从对象中抽取属性"></a>
 ### 1.2.7. 从对象中抽取属性
 
 ```js
@@ -202,10 +193,8 @@ var x=1, y=2;
 var {hostname:domain, pathname:path} = location; // 快速获取当前页面的域名和路径
 ```
 
-<a id="markdown-13-js对象" name="13-js对象"></a>
 ## 1.3. js对象
 
-<a id="markdown-131-this" name="131-this"></a>
 ### 1.3.1. this
 
 - 对象内部访问对象使用this
@@ -273,7 +262,6 @@ var obj = {
 console.log(obj.getAge(2015));// 25
 ```
 
-<a id="markdown-132-函数装饰器用法" name="132-函数装饰器用法"></a>
 ### 1.3.2. 函数装饰器用法
 
 现在假定我们想统计一下代码一共调用了多少次parseInt()
@@ -288,10 +276,8 @@ window.parseInt = function () {
 };
 ```
 
-<a id="markdown-14-高阶编程" name="14-高阶编程"></a>
 ## 1.4. 高阶编程
 
-<a id="markdown-141-map--reduce" name="141-map--reduce"></a>
 ### 1.4.1. map / reduce
 
 ```js
@@ -309,7 +295,6 @@ arr.reduce(function (x, y) { // 连续两个合1 两个合1
 }); // 25
 ```
 
-<a id="markdown-142-filter-筛选" name="142-filter-筛选"></a>
 ### 1.4.2. filter 筛选
 
 ```js
@@ -320,7 +305,6 @@ var r = arr.filter(function (x) {
 r; // [1, 2, 3, 4]
 ```
 
-<a id="markdown-143-generator-结构类似于casyncawait" name="143-generator-结构类似于casyncawait"></a>
 ### 1.4.3. generator （结构类似于c#async/await）
 
 除了return语句，还可以用yield返回多次。就像闭包一样提供了一种可以记住状态的函数。
@@ -353,7 +337,6 @@ for (var x of foo(100)) {
 }
 ```
 
-<a id="markdown-144-js-异步编程" name="144-js-异步编程"></a>
 ### 1.4.4. js 异步编程
 
 - 最简单的异步编程，timeout
@@ -617,10 +600,8 @@ User.create({
 })();
 ```
 
-<a id="markdown-15-js-的类" name="15-js-的类"></a>
 ## 1.5. Js 的类
 
-<a id="markdown-151-prototype-原型链模式---组合继承" name="151-prototype-原型链模式---组合继承"></a>
 ### 1.5.1. Prototype 原型链模式 - 组合继承
 
 ```js
@@ -687,7 +668,6 @@ console.log("------------------");
 // specof Animal : true
 ```
 
-<a id="markdown-152-es6-以后支持class写法更简单" name="152-es6-以后支持class写法更简单"></a>
 ### 1.5.2. ES6 以后支持class写法，更简单
 
 ```js
@@ -733,10 +713,8 @@ console.log("------------------");
 // specof Animal : true
 ```
 
-<a id="markdown-16-网页编程" name="16-网页编程"></a>
 ## 1.6. 网页编程
 
-<a id="markdown-161-跨域问题" name="161-跨域问题"></a>
 ### 1.6.1. 跨域问题
 
 - Flash发送Http请求（作废）。
@@ -782,10 +760,8 @@ Access-Control-Max-Age: 86400
 
 由于以```POST```、```PUT```方式传送```JSON```格式的数据在```REST```中很常见，所以要跨域正确处理```POST```和```PUT```请求，服务器端必须正确响应```OPTIONS```请求。
 
-<a id="markdown-17-nodejs" name="17-nodejs"></a>
 ## 1.7. Nodejs
 
-<a id="markdown-171-模块编程" name="171-模块编程"></a>
 ### 1.7.1. 模块编程
 
 ```js
@@ -836,10 +812,8 @@ var exported = load(module);
 save(module, exported);
 ```
 
-<a id="markdown-18-warning" name="18-warning"></a>
 ## 1.8. Warning
 
-<a id="markdown-181-自动加的bug" name="181-自动加的bug"></a>
 ### 1.8.1. 自动加";"的BUG
 
 ```js
@@ -860,7 +834,6 @@ function foo() {
 }
 ```
 
-<a id="markdown-182-推荐优秀库" name="182-推荐优秀库"></a>
 ### 1.8.2. 推荐优秀库
 
 1. underscore 集合操作库
@@ -868,14 +841,12 @@ function foo() {
 3. var http = require('http'); nodejs web 服务器
 4. var url = require('url'); nodejs 将 url 解析成对象
 
-<a id="markdown-183-平台版本测试" name="183-平台版本测试"></a>
 ### 1.8.3. 平台版本测试
 
 ```js
 console.log('ES6');
 ```
 
-<a id="markdown-184-网页编程要注意问题" name="184-网页编程要注意问题"></a>
 ### 1.8.4. 网页编程要注意问题
 
 1. ajax 跨域问题
