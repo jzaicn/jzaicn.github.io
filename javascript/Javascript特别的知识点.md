@@ -1,16 +1,16 @@
-# Javascript 特别的知识点
+# 1. Javascript 特别的知识点
 
-[TOC]
+<!-- TOC -->autoauto- [1. Javascript 特别的知识点](#1-javascript-特别的知识点)auto    - [1.1. 额外附加辅助编程](#11-额外附加辅助编程)auto        - [1.1.1. 'use strict'](#111-use-strict)auto    - [1.2. 语法](#12-语法)auto        - [1.2.1. 循环 for...in / for...of](#121-循环-forin--forof)auto        - [1.2.2. 函数参数arguments](#122-函数参数arguments)auto        - [1.2.3. rest参数](#123-rest参数)auto        - [1.2.4. 函数默认参数](#124-函数默认参数)auto        - [1.2.5. 变量 var let const](#125-变量-var-let-const)auto        - [1.2.6. 解构赋值（数组赋值）](#126-解构赋值数组赋值)auto        - [1.2.7. 从对象中抽取属性](#127-从对象中抽取属性)auto    - [1.3. js对象](#13-js对象)auto        - [1.3.1. this](#131-this)auto        - [1.3.2. 函数装饰器用法](#132-函数装饰器用法)auto    - [1.4. 高阶编程](#14-高阶编程)auto        - [1.4.1. map / reduce](#141-map--reduce)auto        - [1.4.2. filter 筛选](#142-filter-筛选)auto        - [1.4.3. generator （结构类似于c#async/await）](#143-generator-结构类似于casyncawait)auto        - [1.4.4. js 异步编程](#144-js-异步编程)auto    - [1.5. Js 的类](#15-js-的类)auto        - [1.5.1. Prototype 原型链模式 - 组合继承](#151-prototype-原型链模式---组合继承)auto        - [1.5.2. ES6 以后支持class写法，更简单](#152-es6-以后支持class写法更简单)auto    - [1.6. 网页编程](#16-网页编程)auto        - [1.6.1. 跨域问题](#161-跨域问题)auto    - [1.7. Nodejs](#17-nodejs)auto        - [1.7.1. 模块编程](#171-模块编程)auto    - [1.8. Warning](#18-warning)auto        - [1.8.1. 自动加";"的BUG](#181-自动加的bug)auto        - [1.8.2. 推荐优秀库](#182-推荐优秀库)auto        - [1.8.3. 平台版本测试](#183-平台版本测试)auto        - [1.8.4. 网页编程要注意问题](#184-网页编程要注意问题)autoauto<!-- /TOC -->
 
-## 额外附加辅助编程
+## 1.1. 额外附加辅助编程
 
-### 'use strict'
+### 1.1.1. 'use strict'
 
 为了修补JavaScript这一严重设计缺陷，ECMA在后续规范中推出了strict模式，在strict模式下运行的JavaScript代码，强制通过var申明变量，未使用var申明变量就使用的，将导致运行错误。这是一个字符串，不支持strict模式的浏览器会把它当做一个字符串语句执行，支持strict模式的浏览器将开启strict模式运行JavaScript。
 
-## 语法
+## 1.2. 语法
 
-### 循环 for...in / for...of
+### 1.2.1. 循环 for...in / for...of
 
 - ***for...in*** 它可以把一个对象的所有属性依次循环出来：
 
@@ -76,7 +76,7 @@ a.forEach(function (element, index, array) {
 });
 ```
 
-### 函数参数arguments
+### 1.2.2. 函数参数arguments
 
 利用arguments，你可以获得调用者传入的所有参数。也就是说，即使函数不定义任何参数，还是可以拿到参数的值
 
@@ -90,7 +90,7 @@ function abs() {
 }
 ```
 
-### rest参数
+### 1.2.3. rest参数
 
 rest参数只能写在最后，前面用...标识，从运行结果可知，传入的参数先绑定a、b，多余的参数以数组形式交给变量rest，所以，不再需要arguments我们就获取了全部参数
 
@@ -103,7 +103,7 @@ function foo(a, b, ...rest) {
 foo(1,2,3,4);
 ```
 
-### 函数默认参数
+### 1.2.4. 函数默认参数
 
 ```js
 function Student(props) {
@@ -111,7 +111,7 @@ function Student(props) {
 }
 ```
 
-### 变量 var let const
+### 1.2.5. 变量 var let const
 
 ```js
 {
@@ -125,14 +125,14 @@ a // ReferenceError: a is not defined.
 b // 1
 ```
 
-### 解构赋值（数组赋值）
+### 1.2.6. 解构赋值（数组赋值）
 
 ```js
 var [x, y, z] = ['hello', 'JavaScript', 'ES6'];
 let [x, [y, z]] = ['hello', ['JavaScript', 'ES6']];
 ```
 
-### 从对象中抽取属性
+### 1.2.7. 从对象中抽取属性
 
 ```js
 var person = {
@@ -161,9 +161,9 @@ var x=1, y=2;
 var {hostname:domain, pathname:path} = location; // 快速获取当前页面的域名和路径
 ```
 
-## js对象
+## 1.3. js对象
 
-### this
+### 1.3.1. this
 
 - 对象内部访问对象使用this
 
@@ -230,7 +230,7 @@ var obj = {
 console.log(obj.getAge(2015));// 25
 ```
 
-### 函数装饰器用法
+### 1.3.2. 函数装饰器用法
 
 现在假定我们想统计一下代码一共调用了多少次parseInt()
 
@@ -244,9 +244,9 @@ window.parseInt = function () {
 };
 ```
 
-## 高阶编程
+## 1.4. 高阶编程
 
-### map / reduce
+### 1.4.1. map / reduce
 
 ```js
 // Map
@@ -263,7 +263,7 @@ arr.reduce(function (x, y) { // 连续两个合1 两个合1
 }); // 25
 ```
 
-### filter 筛选
+### 1.4.2. filter 筛选
 
 ```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -273,7 +273,7 @@ var r = arr.filter(function (x) {
 r; // [1, 2, 3, 4]
 ```
 
-### generator （结构类似于c#async/await）
+### 1.4.3. generator （结构类似于c#async/await）
 
 除了return语句，还可以用yield返回多次。就像闭包一样提供了一种可以记住状态的函数。
 
@@ -305,7 +305,7 @@ for (var x of foo(100)) {
 }
 ```
 
-### js 异步编程
+### 1.4.4. js 异步编程
 
 - 最简单的异步编程，timeout
 
@@ -568,9 +568,9 @@ User.create({
 })();
 ```
 
-## Js 的类
+## 1.5. Js 的类
 
-### Prototype 原型链模式 - 组合继承
+### 1.5.1. Prototype 原型链模式 - 组合继承
 
 ```js
 'use strict'
@@ -636,7 +636,7 @@ console.log("------------------");
 // specof Animal : true
 ```
 
-### ES6 以后支持class写法，更简单
+### 1.5.2. ES6 以后支持class写法，更简单
 
 ```js
 console.log("-父类-----------------");
@@ -681,9 +681,9 @@ console.log("------------------");
 // specof Animal : true
 ```
 
-## 网页编程
+## 1.6. 网页编程
 
-### 跨域问题
+### 1.6.1. 跨域问题
 
 - Flash发送Http请求（作废）。
 - 后端服务器转发（前后端分离，同站）。
@@ -728,9 +728,9 @@ Access-Control-Max-Age: 86400
 
 由于以```POST```、```PUT```方式传送```JSON```格式的数据在```REST```中很常见，所以要跨域正确处理```POST```和```PUT```请求，服务器端必须正确响应```OPTIONS```请求。
 
-## Nodejs
+## 1.7. Nodejs
 
-### 模块编程
+### 1.7.1. 模块编程
 
 ```js
 // 模块 bbb.js
@@ -780,9 +780,9 @@ var exported = load(module);
 save(module, exported);
 ```
 
-## Warning
+## 1.8. Warning
 
-### 自动加";"的BUG
+### 1.8.1. 自动加";"的BUG
 
 ```js
 function foo() {
@@ -802,20 +802,20 @@ function foo() {
 }
 ```
 
-### 推荐优秀库
+### 1.8.2. 推荐优秀库
 
 1. underscore 集合操作库
 2. babel ES6编译成低版本js
 3. var http = require('http'); nodejs web 服务器
 4. var url = require('url'); nodejs 将 url 解析成对象
 
-### 平台版本测试
+### 1.8.3. 平台版本测试
 
 ```js
 console.log('ES6');
 ```
 
-### 网页编程要注意问题
+### 1.8.4. 网页编程要注意问题
 
 1. ajax 跨域问题
 2. gzip
