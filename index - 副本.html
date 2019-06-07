@@ -10,7 +10,7 @@
       setInterval(function () {
         console.log(123);
         window.location = window.location;
-      }, 10000);
+      }, 5000);
     }
   </script>
   <style>
@@ -27,27 +27,70 @@
     }
 
     /* 勾选项 begin */
+    .todo_check_label
+    {
+      background-color: pink;
+    }
     .todo_check_label input {
       display: none;
     }
-    .todo_check_label span{
+
+    .todo_check_label span {
       margin: 0px;
     }
+
     .todo_check_label input+span {
-      display: inline-block;
-      width: 64px;
-      height: 64px;
-      background: url(src/assets/uncheck.png) ;
-      background-size: 64px 64px;  
-      position: relative;
-      top: 10px;
-      left: 10px;
+      display: block;
+      width: 80px;
+      height: 80px;
+      background: url(src/assets/uncheck.png);
+      background-size: 80px 80px;
+      float: left;
     }
+
     .todo_check_label input:checked+span {
       background: url(src/assets/check.png) no-repeat;
-      background-size: 64px 64px;  
+      background-size: 80px 80px;
     }
+
     /* 勾选项 end */
+
+    /* 文本 begin */
+    .todo_text
+    {
+      background-color: transparent;
+    }
+    
+    /* 文本 end */
+
+
+    /* 按钮样式 begin */
+    .todo_tools{
+      height: 80px;
+      float: right;
+      position: relative;
+      right: 0;
+      background-color: transparent;
+    }
+    .todo_btn_add {
+      width: 76px;
+      height: 76px;
+      background-color: transparent;
+    }
+
+    .todo_btn_del {
+      width: 76px;
+      height: 76px;
+      background-color: transparent;
+    }
+
+    .todo_btn_edit {
+      width: 76px;
+      height: 76px;
+      background-color: transparent;
+    }
+
+    /* 按钮样式 end */
   </style>
 </head>
 
@@ -59,14 +102,13 @@
       <span></span>
     </label>
 
-    <span>点击输入新的todo...</span>
-    <div>
-      <input type="button" value="add">
-      <input type="button" value="del">
-      <input type="button" value="edit">
+    <span class="todo_text">点击输入新的todo...</span>
+    <div class="todo_tools">
+      <input class="todo_btn_add" type="image" src="src/assets/add.png">
+      <input class="todo_btn_del" type="image" src="src/assets/del.png">
+      <input class="todo_btn_edit" type="image" src="src/assets/edit.png">
     </div>
   </div>
-  <img src="src/assets/check.png">
 </body>
 
 </html>
