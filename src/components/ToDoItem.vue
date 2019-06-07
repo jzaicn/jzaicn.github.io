@@ -2,26 +2,53 @@
   <div class="todo_item">
     <div class="todo_check">
       <label class="todo_check_label">
-        <input type="checkbox" name="check-protocol" v-model="item.isFinish">
+        <input
+          type="checkbox"
+          name="check-protocol"
+          v-model="item.isFinish"
+          v-on:click="CheckTodoCheckbox"
+        >
         <span></span>
       </label>
     </div>
 
     <div class="todo_tools">
-      <input class="todo_btn_add" type="image" src="/static/img/add.png">
-      <input class="todo_btn_del" type="image" src="/static/img/del.png">
-      <input class="todo_btn_edit" type="image" src="/static/img/edit.png">
+      <input class="todo_btn_add" type="image" src="/static/img/add.png" v-show="item.state=='new'">
+      <input
+        class="todo_btn_add"
+        type="image"
+        src="/static/img/add.png"
+        v-show="item.state=='edit'"
+      >
+      <input
+        class="todo_btn_edit"
+        type="image"
+        src="/static/img/edit.png"
+        v-show="item.state=='normal'"
+      >
+      <input
+        class="todo_btn_del"
+        type="image"
+        src="/static/img/del.png"
+        v-show="item.state=='normal'"
+      >
+      <input
+        class="todo_btn_edit"
+        type="image"
+        src="/static/img/hide.png"
+        v-show="item.state=='finish'"
+      >
     </div>
 
     <div class="todo_text">
-      <span class="todo_text_new" v-show="item.state == 'new'" v-bind="item.text">点击输入新的todo...</span>
-      <span class="todo_text_normal" v-show="item.state == 'normal'" v-bind="item.text">一条还没完成的todo</span>
-      <span class="todo_text_finish" v-show="item.state == 'finish'" v-bind="item.text">一条已经完成的todo</span>
+      <span class="todo_text_new" v-show="item.state=='new'" v-on:click="ClickEditNew">{{item.text}}</span>
+      <span class="todo_text_normal" v-show="item.state=='normal'">{{item.text}}</span>
+      <span class="todo_text_finish" v-show="item.state=='finish'">{{item.text}}</span>
       <input
         class="todo_text_input"
         type="text"
         value="新的todo输入中..."
-        v-show="item.state == 'writing'"
+        v-show="item.state=='edit'"
         v-model="item.text"
       >
     </div>
@@ -33,20 +60,49 @@ export default {
   name: "ToDoItem",
   data() {
     // setInterval(function() {
+    //   var self;
     //   $(".todo_check_label > input").each(function() {
-    // 			this.checked = !this.checked;
-    //     });
+    //     this.checked = !this.checked;
+    //     self = this;
+    //   });
+
+    //   // $(".todo_tools > input").each(function() {
+    //   // 	item.state = self.checked?"edit":"normal";
+    //   // });
 
     //   console.log(2);
     // }, 2000);
 
+    // state : new edit normal finish
     return {
       item: {
         isFinish: false,
         text: "我是一条已完成的todo",
-        state: "writing"
+        state: "normal"
       }
     };
+  },
+  methods: {
+    CheckTodoCheckbox: function() {
+      console.log(
+        `CheckTodoCheckbox:isFinish${this.item.isFinish},state:${
+          this.item.state
+        }`
+      );
+      if (this.item.isFinish == true) {
+        this.item.isFinish = false;
+        this.item.state = "normal";
+      } else {
+        this.item.isFinish = true;
+        this.item.state = "finish";
+      }
+    },
+    ClickEditNew: function() {
+      console.log("ClickEditNew");
+    },
+    LostFocusEdit: function() {
+      console.log("LostFocusEdit");
+    }
   }
 };
 </script>
