@@ -115,6 +115,9 @@ export default {
   height: 70px;
   padding: 10px 25px 10px 25px;
   border-bottom: 1px solid rgb(201, 201, 201);
+
+  max-width: 1000px;
+  min-width: 550px;
 }
 /* 勾选项 begin --------------------------------------------------------------- */
 .todo_check {
