@@ -19,6 +19,7 @@
         type="image"
         src="/static/img/add.png"
         v-show="item.state=='edit'"
+        v-on:click="ClickFinishEdit"
       >
       <input
         class="todo_btn_edit"
@@ -32,12 +33,12 @@
         src="/static/img/del.png"
         v-show="item.state=='normal'"
       >
-      <input
+      <!-- <input
         class="todo_btn_edit"
         type="image"
         src="/static/img/hide.png"
-        v-show="item.state=='finish'"
-      >
+        v-show="item.state=='finish'" 
+      >-->
     </div>
 
     <div class="todo_text">
@@ -77,8 +78,8 @@ export default {
     return {
       item: {
         isFinish: false,
-        text: "我是一条已完成的todo",
-        state: "normal"
+        text: "一个等待被填充寂寞的空格",
+        state: "new"
       }
     };
   },
@@ -98,10 +99,32 @@ export default {
       }
     },
     ClickEditNew: function() {
-      console.log("ClickEditNew");
+      this.InnerSetEdit();
     },
-    LostFocusEdit: function() {
-      console.log("LostFocusEdit");
+    ClickFinishEdit: function() {
+      let input = this.item.text;
+      this.InnerSetNormal();
+      this.item.text = input;
+    },
+    InnerSetNew: function() {
+      this.item.isFinish = false;
+      this.item.text = "一个等待被填充寂寞的空格";
+      this.item.state = "new";
+    },
+    InnerSetEdit: function() {
+      this.item.isFinish = false;
+      this.item.text = "一个等待被填充寂寞的空格";
+      this.item.state = "edit";
+    },
+    InnerSetNormal: function() {
+      this.item.isFinish = false;
+      this.item.text = "啊啊啊还有好多作业要去做！明天要高考了！";
+      this.item.state = "normal";
+    },
+    InnerSetFinish: function() {
+      this.item.isFinish = true;
+      this.item.text = "我是一条已经把工作做完了的咸鱼";
+      this.item.state = "finish";
     }
   }
 };
@@ -187,7 +210,7 @@ export default {
 
 .todo_text input {
   margin-left: 0;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: bold;
   top: 50%;
   position: relative;
@@ -211,8 +234,8 @@ export default {
 .todo_text .todo_text_input {
   background-color: white;
   border: 0;
-  margin-top: 8px;
-  padding-left: 10px;
+  margin-top: 3px;
+  padding-left: 0px;
   color: rgb(19, 19, 59);
   width: 70%;
 }
