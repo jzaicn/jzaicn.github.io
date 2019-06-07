@@ -1,0 +1,160 @@
+<template>
+  <div class="todo_item">
+    <div class="todo_check">
+      <label class="todo_check_label">
+        <input type="checkbox" name="check-protocol" v-model="item.isFinish">
+        <span></span>
+      </label>
+    </div>
+
+    <div class="todo_tools">
+      <input class="todo_btn_add" type="image" src="/static/img/add.png">
+      <input class="todo_btn_del" type="image" src="/static/img/del.png">
+      <input class="todo_btn_edit" type="image" src="/static/img/edit.png">
+    </div>
+
+    <div class="todo_text">
+      <span class="todo_text_new" v-show="item.state == 'new'" v-bind="item.text">点击输入新的todo...</span>
+      <span class="todo_text_normal" v-show="item.state == 'normal'" v-bind="item.text">一条还没完成的todo</span>
+      <span class="todo_text_finish" v-show="item.state == 'finish'" v-bind="item.text">一条已经完成的todo</span>
+      <input
+        class="todo_text_input"
+        type="text"
+        value="新的todo输入中..."
+        v-show="item.state == 'writing'"
+        v-model="item.text"
+      >
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ToDoItem",
+  data() {
+    // setInterval(function() {
+    //   $(".todo_check_label > input").each(function() {
+    // 			this.checked = !this.checked;
+    //     });
+
+    //   console.log(2);
+    // }, 2000);
+
+    return {
+      item: {
+        isFinish: false,
+        text: "我是一条已完成的todo",
+        state: "writing"
+      }
+    };
+  }
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+/* 整个元素 begin --------------------------------------------------------------- */
+.todo_item {
+  background-color: transparent;
+  height: 70px;
+  padding: 10px 25px 10px 25px;
+  border-bottom: 1px solid rgb(201, 201, 201);
+}
+/* 勾选项 begin --------------------------------------------------------------- */
+.todo_check {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  float: left;
+}
+
+.todo_check_label {
+  background-color: transparent;
+}
+
+.todo_check_label input {
+  display: none;
+}
+
+.todo_check_label span {
+  margin: 0px;
+}
+
+.todo_check_label input + span {
+  display: block;
+  width: 70px;
+  height: 70px;
+  background: url(/static/img/uncheck.png);
+  background-size: 70px 70px;
+  float: left;
+}
+
+.todo_check_label input:checked + span {
+  background: url(/static/img/check.png) no-repeat;
+  background-size: 70px 70px;
+}
+/* 按钮样式 begin --------------------------------------------------------------- */
+.todo_tools {
+  height: 70px;
+  float: right;
+  position: relative;
+  background-color: transparent;
+  top: 9px;
+  right: 0;
+}
+
+.todo_tools input {
+  width: 50px;
+  height: 50px;
+  border: none;
+  background-color: transparent;
+}
+/* 文本 begin --------------------------------------------------------------- */
+.todo_text {
+  position: relative;
+  background-color: transparent;
+  top: 10px;
+  margin-left: 90px;
+}
+
+.todo_text span {
+  display: block;
+  background-color: transparent;
+  margin-left: 0;
+  font-size: 38px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.todo_text input {
+  margin-left: 0;
+  font-size: 36px;
+  font-weight: bold;
+  top: 50%;
+  position: relative;
+  float: left;
+}
+
+.todo_text .todo_text_new {
+  color: rgb(156, 156, 156);
+}
+
+.todo_text .todo_text_normal {
+  color: rgb(114, 114, 114);
+}
+
+.todo_text .todo_text_finish {
+  color: rgb(160, 160, 160);
+  font-style: italic;
+  text-decoration: line-through;
+}
+
+.todo_text .todo_text_input {
+  background-color: white;
+  border: 0;
+  margin-top: 8px;
+  padding-left: 10px;
+  color: rgb(19, 19, 59);
+  width: 70%;
+}
+</style>
