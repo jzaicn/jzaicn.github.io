@@ -1,48 +1,48 @@
 <template>
   <div class="todo_item">
     <div class="todo_check">
-      <label class="todo_check_label">
-        <input
-          type="checkbox"
-          name="check-protocol"
-          v-model="item.isFinish"
+      <input
+        class="todo_btn_check"
+        type="image"
+        src="/static/img/check.png"
+          v-show="item.state=='finish'"
           v-on:click="CheckTodoCheckbox"
-        >
-        <span></span>
-      </label>
+      >
+      <input
+        class="todo_btn_check"
+        type="image"
+        src="/static/img/uncheck.png"
+          v-show="item.state!='finish'"
+          v-on:click="CheckTodoCheckbox"
+      >
     </div>
 
     <div class="todo_tools">
-      <input class="todo_btn_add" type="image" src="/static/img/add.png" v-show="item.state=='new'">
       <input
         class="todo_btn_add"
         type="image"
         src="/static/img/add.png"
-        v-show="item.state=='edit'"
-        v-on:click="ClickFinishEdit"
+        v-show="item.state=='new'"
+        v-on:click="ClickBtnNew"
       >
       <input
         class="todo_btn_edit"
         type="image"
         src="/static/img/edit.png"
         v-show="item.state=='normal'"
+        v-on:click="ClickBtnNew"
       >
       <input
         class="todo_btn_del"
         type="image"
         src="/static/img/del.png"
         v-show="item.state=='normal'"
+        v-on:click="ClickBtnNew"
       >
-      <!-- <input
-        class="todo_btn_edit"
-        type="image"
-        src="/static/img/hide.png"
-        v-show="item.state=='finish'" 
-      >-->
     </div>
 
     <div class="todo_text">
-      <span class="todo_text_new" v-show="item.state=='new'" v-on:click="ClickEditNew">{{item.text}}</span>
+      <span class="todo_text_new" v-show="item.state=='new'" v-on:click="ClickTextEdit">{{item.text}}</span>
       <span class="todo_text_normal" v-show="item.state=='normal'">{{item.text}}</span>
       <span class="todo_text_finish" v-show="item.state=='finish'">{{item.text}}</span>
       <input
@@ -62,7 +62,7 @@ export default {
   data() {
     // setInterval(function() {
     //   var self;
-    //   $(".todo_check_label > input").each(function() {
+    //   $(".todo_btn_check > input").each(function() {
     //     this.checked = !this.checked;
     //     self = this;
     //   });
@@ -77,35 +77,79 @@ export default {
     // state : new edit normal finish
     return {
       item: {
-        isFinish: false,
+        isFinish: true,
         text: "一个等待被填充寂寞的空格",
-        state: "new"
+        state: "finish"
       }
     };
   },
   methods: {
-    CheckTodoCheckbox: function() {
+    InnerDebug: function(name) {
       console.log(
-        `CheckTodoCheckbox:isFinish${this.item.isFinish},state:${
+        `method:${name},isfinish:${this.item.isFinish},state:${
           this.item.state
-        }`
+        },text:${this.item.text}`
       );
-      if (this.item.isFinish == true) {
-        this.item.isFinish = false;
-        this.item.state = "normal";
-      } else {
-        this.item.isFinish = true;
-        this.item.state = "finish";
+    },
+    ///////////////////////////////////////////////////////////////////////
+    // 点击勾选框
+    CheckTodoCheckbox: function() {
+      switch (this.item.state) {
+        case "new":
+          break;
+        case "edit":
+          break;
+        case "normal":
+          this.InnerSetFinish();
+          this.InnerDebug("InnerSetFinish");
+          break;
+        case "finish":
+          this.InnerSetNormal();
+          this.InnerDebug("InnerSetNormal");
+          break;
+        default:
+          break;
       }
     },
-    ClickEditNew: function() {
+    ///////////////////////////////////////////////////////////////////////
+    // 点击文本
+    ClickTextEdit: function() {
+      this.InnerSetEdit();
+
+      let str = this.item.text; // 保存当前文本内容
+
+      switch (this.item.state) {
+        case "new":
+          break;
+        case "edit":
+          break;
+        case "normal":
+          break;
+        case "finish":
+          break;
+        default:
+          break;
+      }
+    },
+    // 点击文本离开
+    LeftTextEdit: function() {
       this.InnerSetEdit();
     },
-    ClickFinishEdit: function() {
-      let input = this.item.text;
-      this.InnerSetNormal();
-      this.item.text = input;
+    ///////////////////////////////////////////////////////////////////////
+    // 按钮 新建
+    ClickBtnNew: function() {
+      this.InnerSetEdit();
     },
+    // 按钮 编辑
+    ClickBtnEdit: function() {
+      this.InnerSetEdit();
+    },
+    // 按钮 删除
+    ClickBtnDel: function() {
+      this.InnerSetEdit();
+    },
+    ///////////////////////////////////////////////////////////////////////
+    // 内部方法
     InnerSetNew: function() {
       this.item.isFinish = false;
       this.item.text = "一个等待被填充寂寞的空格";
@@ -113,17 +157,14 @@ export default {
     },
     InnerSetEdit: function() {
       this.item.isFinish = false;
-      this.item.text = "一个等待被填充寂寞的空格";
       this.item.state = "edit";
     },
     InnerSetNormal: function() {
       this.item.isFinish = false;
-      this.item.text = "啊啊啊还有好多作业要去做！明天要高考了！";
       this.item.state = "normal";
     },
     InnerSetFinish: function() {
       this.item.isFinish = true;
-      this.item.text = "我是一条已经把工作做完了的咸鱼";
       this.item.state = "finish";
     }
   }
@@ -150,31 +191,12 @@ export default {
   float: left;
 }
 
-.todo_check_label {
+.todo_btn_check {
   background-color: transparent;
-}
-
-.todo_check_label input {
-  display: none;
-}
-
-.todo_check_label span {
-  margin: 0px;
-}
-
-.todo_check_label input + span {
-  display: block;
   width: 70px;
   height: 70px;
-  background: url(/static/img/uncheck.png);
-  background-size: 70px 70px;
-  float: left;
 }
 
-.todo_check_label input:checked + span {
-  background: url(/static/img/check.png) no-repeat;
-  background-size: 70px 70px;
-}
 /* 按钮样式 begin --------------------------------------------------------------- */
 .todo_tools {
   height: 70px;
@@ -197,6 +219,7 @@ export default {
   background-color: transparent;
   top: 10px;
   margin-left: 90px;
+  margin-right: 100px;
 }
 
 .todo_text span {
