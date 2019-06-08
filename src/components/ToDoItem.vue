@@ -32,14 +32,14 @@
         type="image"
         src="/static/img/edit.png"
         v-show="item.state=='normal'"
-        v-on:click="ClickBtnNew"
+        v-on:click="ClickBtnEdit"
       >
       <input
         class="todo_btn_del"
         type="image"
         src="/static/img/del.png"
         v-show="item.state=='normal'"
-        v-on:click="ClickBtnNew"
+        v-on:click="ClickBtnDel"
       >
     </div>
 
@@ -93,16 +93,18 @@ export default {
     // state : new edit normal finish
     return {
       item: {
-        isFinish: true,
         text: "一个等待被填充寂寞的空格",
         state: "new"
       }
     };
   },
+  mounted:function(){
+    //window.item = this.item;
+  },
   methods: {
     InnerDebug: function(name) {
       console.log(
-        `method:${name},isfinish:${this.item.isFinish},state:${
+        `method:${name},state:${
           this.item.state
         },text:${this.item.text}`
       );
@@ -127,7 +129,8 @@ export default {
     },
     ///////////////////////////////////////////////////////////////////////
     // 点击文本
-    ClickTextEdit: function() {
+    ClickTextEdit: function(mouse) {
+      console.log(mouse);
       switch (this.item.state) {
         case "new":
           this.InnerSetEdit();
@@ -179,25 +182,22 @@ export default {
     },
     // 按钮 删除
     ClickBtnDel: function() {
-      this.InnerSetEdit();
+      //TODO: 影响父亲列表
+      this.InnerSetNew();
     },
     ///////////////////////////////////////////////////////////////////////
     // 内部方法
     InnerSetNew: function() {
-      this.item.isFinish = false;
       this.item.text = "一个等待被填充寂寞的空格";
       this.item.state = "new";
     },
     InnerSetEdit: function() {
-      this.item.isFinish = false;
       this.item.state = "edit";
     },
     InnerSetNormal: function() {
-      this.item.isFinish = false;
       this.item.state = "normal";
     },
     InnerSetFinish: function() {
-      this.item.isFinish = true;
       this.item.state = "finish";
     }
   }
@@ -271,14 +271,15 @@ export default {
   top: 50%;
   position: relative;
   float: left;
+  width: 100%;
 }
 
 .todo_text .todo_text_new {
-  color: rgb(156, 156, 156);
+  color: rgb(211, 211, 211);
 }
 
 .todo_text .todo_text_normal {
-  color: rgb(114, 114, 114);
+  color: rgb(46, 46, 46);
 }
 
 .todo_text .todo_text_finish {
