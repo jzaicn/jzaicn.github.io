@@ -1,22 +1,24 @@
 <template>
   <div class="todo_item">
+    <!-- 点击完成 -->
     <div class="todo_check">
       <input
         class="todo_btn_check"
         type="image"
         src="/static/img/check.png"
-          v-show="item.state=='finish'"
-          v-on:click="CheckTodoCheckbox"
+        v-show="item.state=='finish'"
+        v-on:click="CheckTodoCheckbox"
       >
       <input
         class="todo_btn_check"
         type="image"
         src="/static/img/uncheck.png"
-          v-show="item.state!='finish'"
-          v-on:click="CheckTodoCheckbox"
+        v-show="item.state!='finish'"
+        v-on:click="CheckTodoCheckbox"
       >
     </div>
 
+    <!-- 点击控制todo功能 -->
     <div class="todo_tools">
       <input
         class="todo_btn_add"
@@ -41,16 +43,30 @@
       >
     </div>
 
+    <!-- todo文本显示 -->
     <div class="todo_text">
-      <span class="todo_text_new" v-show="item.state=='new'" v-on:click="ClickTextEdit">{{item.text}}</span>
-      <span class="todo_text_normal" v-show="item.state=='normal'">{{item.text}}</span>
-      <span class="todo_text_finish" v-show="item.state=='finish'">{{item.text}}</span>
+      <span
+        class="todo_text_new"
+        v-show="item.state=='new'"
+        v-on:click="ClickTextEdit"
+      >{{item.text}}</span>
+      <span
+        class="todo_text_normal"
+        v-show="item.state=='normal'"
+        v-on:click="ClickTextEdit"
+      >{{item.text}}</span>
+      <span
+        class="todo_text_finish"
+        v-show="item.state=='finish'"
+        v-on:click="ClickTextEdit"
+      >{{item.text}}</span>
       <input
         class="todo_text_input"
         type="text"
         value="新的todo输入中..."
         v-show="item.state=='edit'"
         v-model="item.text"
+        v-on:blur="LeftTextEdit"
       >
     </div>
   </div>
@@ -79,7 +95,7 @@ export default {
       item: {
         isFinish: true,
         text: "一个等待被填充寂寞的空格",
-        state: "finish"
+        state: "new"
       }
     };
   },
@@ -101,11 +117,9 @@ export default {
           break;
         case "normal":
           this.InnerSetFinish();
-          this.InnerDebug("InnerSetFinish");
           break;
         case "finish":
           this.InnerSetNormal();
-          this.InnerDebug("InnerSetNormal");
           break;
         default:
           break;
@@ -114,14 +128,37 @@ export default {
     ///////////////////////////////////////////////////////////////////////
     // 点击文本
     ClickTextEdit: function() {
-      this.InnerSetEdit();
-
-      let str = this.item.text; // 保存当前文本内容
-
+      switch (this.item.state) {
+        case "new":
+          this.InnerSetEdit();
+          break;
+        case "edit":
+          break;
+        case "normal":
+          this.InnerSetFinish();
+          break;
+        case "finish":
+          this.InnerSetNormal();
+          break;
+        default:
+          break;
+      }
+    },
+    // 点击文本离开
+    LeftTextEdit: function() {
+      this.InnerDebug("LeftTextEdit");
+      let old_text = this.item.text;
+      let new_text = "一个等待被填充寂寞的空格";
       switch (this.item.state) {
         case "new":
           break;
         case "edit":
+          if (this.item.text === new_text) {
+            this.InnerSetNew();
+          } else {
+            //TODO: 应该插入一条，自己仍然是new
+            this.InnerSetNormal();
+          }
           break;
         case "normal":
           break;
@@ -130,10 +167,6 @@ export default {
         default:
           break;
       }
-    },
-    // 点击文本离开
-    LeftTextEdit: function() {
-      this.InnerSetEdit();
     },
     ///////////////////////////////////////////////////////////////////////
     // 按钮 新建
@@ -260,6 +293,5 @@ export default {
   margin-top: 3px;
   padding-left: 0px;
   color: rgb(19, 19, 59);
-  width: 70%;
 }
 </style>
