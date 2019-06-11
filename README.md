@@ -19,3 +19,15 @@ http://jquery.cuishifeng.cn/child.html
 
 input 选中取消
 https://blog.csdn.net/weixin_42670523/article/details/81161748
+
+
+随堂笔记
+
+//TODO: 实现文字超出用...显示
+//TODO: 前端是如何做布局的，基本流程是怎么样的，如何考虑不同设备问题
+使用flex布局，定义行式布局，不同设备以iphone678/iphonex作为默认尺寸，其他设备通过横向rem来缩放
+移动端现在有mh mw等参数可使用。
+
+//TODO: 是否有什么工具可以简单拖拉式满足基本布局
+//TODO: 怎么考虑框架问题
+//TODO: webpack怎么打包，怎么变成单页面应用？
