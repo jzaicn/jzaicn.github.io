@@ -92,6 +92,18 @@ $ systemctl enable frps
 3. 将frps（结尾s for server）及frps.ini部署到服务器；将frpc（c for client）及frpc.ini发布给要部署公开端口的内网服务器。两边都运行。
 4. ok了
 
+生成密钥（服务器在linux自带） [windows下openssl工具包](https://files-cdn.cnblogs.com/files/smismile/openssl.zip)
+
+```sh
+export NGROK_DOMAIN="ddns.getgeekfun.cn"
+
+openssl genrsa -out $NGROK_DOMAIN.rootCA.key 2048
+openssl req -x509 -new -nodes -key $NGROK_DOMAIN.rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 5000 -out $NGROK_DOMAIN.rootCA.pem
+openssl genrsa -out $NGROK_DOMAIN.server.key 2048
+openssl req -new -key $NGROK_DOMAIN.server.key -subj "/CN=$NGROK_DOMAIN" -out $NGROK_DOMAIN.server.csr
+openssl x509 -req -in $NGROK_DOMAIN.server.csr -CA $NGROK_DOMAIN.rootCA.pem -CAkey $NGROK_DOMAIN.rootCA.key -CAcreateserial -out $NGROK_DOMAIN.server.crt -days 5000
+```
+
 已经在 ```ddns.getgeekfun.cn``` 创建了frp ddns服务器，配置如下：
 
 frps.ini
@@ -162,3 +174,12 @@ subdomain = web02
 ## 搭建docker
 
 [Ubuntu18.04安装Docker](https://blog.csdn.net/u010889616/article/details/80170767)
+
+### docker管理器 Portainer
+
+默认安装到9000端口
+
+```sh
+docker volume create portainer_data
+docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+```
