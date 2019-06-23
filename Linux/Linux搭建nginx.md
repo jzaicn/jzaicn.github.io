@@ -27,6 +27,12 @@ tmpfs            99M     0   99M   0% /run/user/0
 
 ## 安装完基础环境搭建
 
+### Putty不断线
+
+在配置服务器，安装服务器过程中，时常由于操作等待时间漫长而短线，痛心疾首。
+
+[putty自动断开问题解决](https://jingyan.baidu.com/article/219f4bf7efe6f6de442d3837.html)
+
 ### 修改网卡设置（部分网络譬如静态ip网络）
 
 [解析CIDR](https://blog.csdn.net/shudaqi2010/article/details/78182618)
@@ -67,20 +73,9 @@ WantedBy=multi-user.target
 $ systemctl start frps
 $ systemctl enable frps
 
-## 搭建Nginx（没成功╮(￣▽￣")╭ ）
+## 搭建Ngrok（没成功╮(￣▽￣")╭ ）
 
 [Ngrok服务器一键安装脚本【支持用户管理】（穿透DDNS）](https://github.com/clangcn/ngrok-one-key-install)
-
-
-openvpn 
-
-- https://blog.csdn.net/wm5920/article/details/78771796
-
-
-- https://blog.csdn.net/m0_37499059/article/details/79587771
-- https://blog.csdn.net/u013144287/article/details/78589643
-
-自动docker
 
 ## 搭建frp服务器（成啦 ｡◕‿◕｡ ）
 
@@ -149,3 +144,21 @@ use_encryption = false
 use_compression = true
 subdomain = web02
 ```
+
+## openvpn 
+
+[openvpn.net 客户端下载](https://openvpn.net/community-downloads/)
+
+
+
+- https://blog.csdn.net/wm5920/article/details/78771796
+
+
+- https://blog.csdn.net/m0_37499059/article/details/79587771
+- https://blog.csdn.net/u013144287/article/details/78589643
+
+自动docker
+
+## 搭建docker
+
+[Ubuntu18.04安装Docker](https://blog.csdn.net/u010889616/article/details/80170767)
