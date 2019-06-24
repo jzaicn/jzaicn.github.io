@@ -157,25 +157,17 @@ use_compression = true
 subdomain = web02
 ```
 
-## openvpn 
+### 内网穿透参考资料
 
-[openvpn.net 客户端下载](https://openvpn.net/community-downloads/)
+[内网穿透工具-frp傻瓜式搭建教程](https://blog.csdn.net/m0_37499059/article/details/79587771)
 
-
-
-- https://blog.csdn.net/wm5920/article/details/78771796
-
-
-- https://blog.csdn.net/m0_37499059/article/details/79587771
-- https://blog.csdn.net/u013144287/article/details/78589643
-
-自动docker
+[十分钟教你配置frp实现内网穿透](https://blog.csdn.net/u013144287/article/details/78589643)
 
 ## 搭建docker
 
 [Ubuntu18.04安装Docker](https://blog.csdn.net/u010889616/article/details/80170767)
 
-### docker管理器 Portainer
+### docker 管理器 Portainer
 
 默认安装到9000端口
 
@@ -183,3 +175,53 @@ subdomain = web02
 docker volume create portainer_data
 docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 ```
+
+### docker 搭建 ftp
+
+基于vsftpd的简易ftp，方便把资源上传下载
+
+```sh
+export FTP_DATA="/root/ftp"
+docker run -d -v $FTP_DATA:/home/vsftpd \
+                -p 20:20 -p 21:21 -p 47400-47470:47400-47470 \
+                -e FTP_USER=root \
+                -e FTP_PASS=0 \
+                -e PASV_ADDRESS=0.0.0.0 \
+                --name ftp \
+                --restart=always bogem/ftp
+```
+
+## docker 搭建 openvpn
+
+使用了docker上的openvpn，具体指令：
+
+```sh
+export OVPN_DATA="/root/ovpn-data"
+export OVPN_ADDR="vpn.getgeekfun.cn"
+mkdir $OVPN_DATA
+cd $OVPN_DATA
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -c -u tcp://$OVPN_ADDR
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+docker run --name openvpn -v $OVPN_DATA:/etc/openvpn -d -p 1194:1194 --privileged kylemanna/openvpn
+```
+
+创建用户：每个用户创建一次，保存到"/root/ovpn-data"，openvpn能读取到这个目录。将输出的user.opvn文件发布给用户。
+
+```sh
+export OVPN_USER="root"
+export OVPN_PW="0000"
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full $OVPN_USER
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient $OVPN_USER > $OVPN_DATA/$OVPN_USER.ovpn
+```
+
+客户端安装openvpn客户端 [官网](https://openvpn.net/community-downloads/) | [https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.7-I607-Win10.exe](https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.7-I607-Win10.exe)
+
+安装完后倒入配置就是上一步生成的user.opvn文件，导入后输入密码即可拨号登陆。
+登陆结果是多了一张挂载在服务器网段下面的网卡，可以等同于跟服务器共网，服务器能看到的内容客户端也能看到。所以v翻V墙v就是这么来的。
+
+![openvpn客户端1](./Linux搭建nginx/openvpn客户端1.png "openvpn客户端1")
+![openvpn客户端2](./Linux搭建nginx/openvpn客户端2.png "openvpn客户端2")
+
+### openvpn参考资料
+
+[windows搭建vpn访问公司内网数据库](https://blog.csdn.net/wm5920/article/details/78771796)
