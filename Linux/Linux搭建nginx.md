@@ -24,6 +24,15 @@ tmpfs           5.0M     0  5.0M   0% /run/lock
 tmpfs           493M     0  493M   0% /sys/fs/cgroup
 tmpfs            99M     0   99M   0% /run/user/0
 ```
+###
+
+[Linux下的tar压缩解压缩命令详解](https://www.cnblogs.com/manong--/p/8012324.html)
+
+解压tar.gz
+
+```sh
+tar -xzvf file.tar.gz 
+```
 
 ## 安装完基础环境搭建
 
@@ -91,18 +100,6 @@ $ systemctl enable frps
 2. 对比着把ini配置文件设置好
 3. 将frps（结尾s for server）及frps.ini部署到服务器；将frpc（c for client）及frpc.ini发布给要部署公开端口的内网服务器。两边都运行。
 4. ok了
-
-生成密钥（服务器在linux自带） [windows下openssl工具包](https://files-cdn.cnblogs.com/files/smismile/openssl.zip)
-
-```sh
-export NGROK_DOMAIN="ddns.getgeekfun.cn"
-
-openssl genrsa -out $NGROK_DOMAIN.rootCA.key 2048
-openssl req -x509 -new -nodes -key $NGROK_DOMAIN.rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 5000 -out $NGROK_DOMAIN.rootCA.pem
-openssl genrsa -out $NGROK_DOMAIN.server.key 2048
-openssl req -new -key $NGROK_DOMAIN.server.key -subj "/CN=$NGROK_DOMAIN" -out $NGROK_DOMAIN.server.csr
-openssl x509 -req -in $NGROK_DOMAIN.server.csr -CA $NGROK_DOMAIN.rootCA.pem -CAkey $NGROK_DOMAIN.rootCA.key -CAcreateserial -out $NGROK_DOMAIN.server.crt -days 5000
-```
 
 已经在 ```ddns.getgeekfun.cn``` 创建了frp ddns服务器，配置如下：
 
@@ -225,3 +222,16 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient $OVP
 ### openvpn参考资料
 
 [windows搭建vpn访问公司内网数据库](https://blog.csdn.net/wm5920/article/details/78771796)
+
+???
+生成密钥（服务器在linux自带） [windows下openssl工具包](https://files-cdn.cnblogs.com/files/smismile/openssl.zip)
+
+```sh
+export NGROK_DOMAIN="ddns.getgeekfun.cn"
+
+openssl genrsa -out $NGROK_DOMAIN.rootCA.key 2048
+openssl req -x509 -new -nodes -key $NGROK_DOMAIN.rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 5000 -out $NGROK_DOMAIN.rootCA.pem
+openssl genrsa -out $NGROK_DOMAIN.server.key 2048
+openssl req -new -key $NGROK_DOMAIN.server.key -subj "/CN=$NGROK_DOMAIN" -out $NGROK_DOMAIN.server.csr
+openssl x509 -req -in $NGROK_DOMAIN.server.csr -CA $NGROK_DOMAIN.rootCA.pem -CAkey $NGROK_DOMAIN.rootCA.key -CAcreateserial -out $NGROK_DOMAIN.server.crt -days 5000
+```
