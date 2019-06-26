@@ -34,6 +34,31 @@ tmpfs            99M     0   99M   0% /run/user/0
 tar -xzvf file.tar.gz 
 ```
 
+### 查看网络端口占用
+
+查看都有谁在监听这个端口
+```
+命令：
+lsof -i:3306
+
+输出：
+COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+docker-pr 1527 root    4u  IPv6  23981      0t0  TCP *:mysql (LISTEN)
+
+命令：
+netstat -tunlp | grep 80
+
+输出：
+tcp6       0      0 :::3306                 :::*                    LISTEN      1527/docker-proxy
+
+说明：
+-t (tcp) 仅显示tcp相关选项
+-u (udp)仅显示udp相关选项
+-n 拒绝显示别名，能显示数字的全部转化为数字
+-l 仅列出在Listen(监听)的服务状态
+-p 显示建立相关链接的程序名   
+```
+
 ## 安装完基础环境搭建
 
 ### Putty不断线
@@ -79,8 +104,11 @@ WantedBy=multi-user.target
 ```
 
 启动并设为开机自启。
-$ systemctl start frps
-$ systemctl enable frps
+```
+systemctl start frps
+systemctl enable frps
+service frps start
+```
 
 ## 搭建Ngrok（没成功╮(￣▽￣")╭ ）
 
