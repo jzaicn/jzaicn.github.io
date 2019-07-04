@@ -39,6 +39,18 @@ tar -xzvf file.tar.gz
 查看都有谁在监听这个端口
 ```
 命令：
+netstat -an | grep :::
+
+输出：
+tcp6       0      0 :::7000                 :::*                    LISTEN
+tcp6       0      0 :::9000                 :::*                    LISTEN
+tcp6       0      0 :::3306                 :::*                    LISTEN
+tcp6       0      0 :::11211                :::*                    LISTEN
+udp6       0      0 ::1:323                 :::*
+udp6       0      0 :::7001                 :::*
+
+
+命令：
 lsof -i:3306
 
 输出：
